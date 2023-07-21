@@ -1,6 +1,5 @@
 ﻿using Catalog.API.Entitites;
 using Catalog.API.Repositories;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -61,6 +60,21 @@ namespace Catalog.API.Controllers
             await _repo.CreateProduct(product);
             return CreatedAtRoute("GetProdunct", new {id = product.Id}, product);
         }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Update([FromBody] Product product)
+        {
+            return Ok(await _repo.UpdateProduct(product));
+        }
+
+        [HttpDelete("{id:length(24)}", Name = "DeleteProduct")]
+        [ProducesResponseType(typeof(Product), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> DeleteProductById(string id)
+        {
+            return Ok(await _repo.DeleteProduct(id));
+        }
+
         #endregion
     }
 }
